@@ -1,3 +1,19 @@
+
+The ravenous search application is one of the project I acompleted in the Codecademy Web development track. It is currently fully functional. I may integrate more features in the future.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
