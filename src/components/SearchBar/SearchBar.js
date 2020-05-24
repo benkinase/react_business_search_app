@@ -4,12 +4,11 @@ import "./SearchBar.css";
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { term: "", location: "", sortBy: "best_match" };
-
-    this.handleTermChange = this.handleTermChange.bind(this);
-    this.handleLocationChange = this.handleLocationChange.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleSortByChange = this.handleSortByChange.bind(this);
+    this.state = {
+      term: "",
+      location: "",
+      sortBy: "best_match",
+    };
 
     //Create an Options Object (member variable)
     this.sortByOptions = {
@@ -19,34 +18,41 @@ class SearchBar extends Component {
     };
   }
 
-  getSortByClass(sortByOption) {
+  getSortByClass = (sortByOption) => {
     if (this.state.sortBy === sortByOption) {
       return "active";
     } else {
       return "";
     }
-  }
-  handleSortByChange(sortByOption) {
-    this.setState({ sortBy: sortByOption });
-  }
+  };
+  handleSortByChange = (sortByOption) => {
+    this.setState({ sortBy: sortByOption }, () => {
+      this.props.searchYelp(
+        this.state.term,
+        this.state.location,
+        this.state.sortBy
+      );
+    });
+  };
 
-  handleTermChange(event) {
-    this.setState({ term: event.target.value });
-  }
-  handleLocationChange(event) {
-    this.setState({ location: event.target.value });
-  }
+  handleTermChange = (e) => {
+    this.setState({ term: e.target.value });
+  };
 
-  handleSearch(event) {
+  handleLocationChange = (e) => {
+    this.setState({ location: e.target.value });
+  };
+
+  handleSearch = (e) => {
     this.props.searchYelp(
       this.state.term,
       this.state.location,
       this.state.sortBy
     );
-    event.preventDefault();
-  }
+    e.preventDefault();
+  };
 
-  renderSortByOptions() {
+  renderSortByOptions = () => {
     // iterate through the object with map()
     return Object.keys(this.sortByOptions).map((sortByOption) => {
       let sortByOptionValue = this.sortByOptions[sortByOption];
@@ -60,7 +66,19 @@ class SearchBar extends Component {
         </li>
       );
     });
-  }
+  };
+
+  handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      this.props.searchYelp(
+        this.state.term,
+        this.state.location,
+        this.state.sortBy
+      );
+
+      e.preventDefault();
+    }
+  };
 
   render() {
     return (
@@ -72,11 +90,18 @@ class SearchBar extends Component {
           <input
             placeholder="Search Businesses"
             onChange={this.handleTermChange}
+            onKeyPress={this.handleKeyPress}
           />
-          <input placeholder="Where?" onChange={this.handleLocationChange} />
+          <input
+            placeholder="Where?"
+            onChange={this.handleLocationChange}
+            onKeyPress={this.handleKeyPress}
+          />
         </div>
         <div className="SearchBar-submit">
-          <a onClick={this.handleSearch}>Let's Go</a>
+          <a onClick={this.handleSearch} href="www.#.de">
+            Let's Go
+          </a>
         </div>
       </div>
     );
